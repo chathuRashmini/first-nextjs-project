@@ -32,12 +32,27 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
+    //run for every time when the given time passses on (in here, every 10 seceonds)
     // fetch data from APIs
     return {
         props: {
             meetups: DUMMMY_MEETUPS
-        }
+        },
+        revalidate: 10
     };
 }
+
+// export async function getServerSideProps(context) {
+//     //run for every incoming request
+//     const req = context.req
+//     const res = context.res
+
+//     // fetch data from APIs
+//     return {
+//         props: {
+//             meetups: DUMMMY_MEETUPS
+//         },
+//     }
+// }
 
 export default HomePage

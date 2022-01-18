@@ -1,4 +1,5 @@
 import MeetupList from "../components/meetups/MeetupList"
+import { MongoClient } from 'mongodb'
 
 const DUMMMY_MEETUPS = [
     {
@@ -32,11 +33,23 @@ function HomePage(props) {
 }
 
 export async function getStaticProps() {
-    //run for every time when the given time passses on (in here, every 10 seceonds)
-    // fetch data from APIs
+
+    const client = await MongoClient.connect('mongodb+srv://nextjs_user:nextjsCluster@cluster0.ha1ec.mongodb.net/meetups?retryWrites=true&w=majority')
+    const db = client.db()
+    const meetupsCollection = db.collection('meetups')
+
+    const meetups = await meetupsCollection.find().toArray()
+
+    client.close()
+
     return {
         props: {
-            meetups: DUMMMY_MEETUPS
+            meetups: meetups.map((meetup) => ({
+                title: meetup.title,
+                address: meetup.address,
+                image: meetup.image,
+                id: meetup._id.toString()
+            }))
         },
         revalidate: 10
     };

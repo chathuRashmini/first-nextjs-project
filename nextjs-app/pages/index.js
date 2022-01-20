@@ -9,7 +9,7 @@ function HomePage(props) {
 
 export async function getStaticProps() {
 
-    const client = await MongoClient.connect('mongodb+srv://nextjs_user:nextjsCluster@cluster0.ha1ec.mongodb.net/meetups?retryWrites=true&w=majority')
+    const client = await MongoClient.connect('')
     const db = client.db()
     const meetupsCollection = db.collection('meetups')
 
